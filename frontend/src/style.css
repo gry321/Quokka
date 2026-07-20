@@ -1,0 +1,77 @@
+:root {
+    /* ===== 基础色板 (RGB 通道) ===== */
+    --primary-rgb: 124, 107, 255;   /* 品牌主色 */
+    --neutral-rgb: 0, 0, 0;         /* 亮色模式中性色基底 */
+    --shadow-rgb: 0, 0, 0;          /* 投射阴影颜色（始终保持黑色） */
+
+    /* ===== 输入框变量 ===== */
+    --input-bg: rgba(var(--neutral-rgb), 0.04);
+    --input-border: rgba(var(--neutral-rgb), 0.15);      /* ↑ 提升至 0.15 增强边界感 */
+    --input-text: #1a1a1a;
+    --input-placeholder: rgba(var(--neutral-rgb), 0.30);
+
+    /* 阴影分层：基础投影 + 聚焦光晕 */
+    --input-shadow-default: 0 8px 32px rgba(var(--shadow-rgb), 0.08);
+    --input-shadow-focus: 0 8px 32px rgba(var(--primary-rgb), 0.20);
+    --input-ring-focus: 0 0 0 4px rgba(var(--primary-rgb), 0.08);
+    --input-shadow: var(--input-shadow-default);
+    --input-focus-shadow: var(--input-shadow-focus), var(--input-ring-focus);
+
+    /* ===== 后缀变量 ===== */
+    --suffix-color: rgba(var(--neutral-rgb), 0.40);
+    --suffix-hover: #1a1a1a;
+
+    /* ===== 动效预设 ===== */
+    --input-transition: 0.2s ease-in-out;
+}
+
+/* ===== 深色模式 ===== */
+.dark {
+    --neutral-rgb: 255, 255, 255;   /* 切换基底为白色 */
+    --shadow-rgb: 0, 0, 0;          /* 阴影保持黑色（深色背景上需更深） */
+
+    --input-bg: rgba(var(--neutral-rgb), 0.06);
+    --input-border: rgba(var(--neutral-rgb), 0.18);      /* 暗色环境下稍微提亮边界 */
+    --input-text: #ffffff;
+    --input-placeholder: rgba(var(--neutral-rgb), 0.35);
+
+    --input-shadow-default: 0 8px 32px rgba(var(--shadow-rgb), 0.45); /* 深色模式下阴影浓度加深 */
+    --input-shadow-focus: 0 8px 32px rgba(var(--primary-rgb), 0.25);
+    --input-ring-focus: 0 0 0 4px rgba(var(--primary-rgb), 0.10);
+    --input-shadow: var(--input-shadow-default);
+    --input-focus-shadow: var(--input-shadow-focus), var(--input-ring-focus);
+
+    --suffix-color: rgba(var(--neutral-rgb), 0.50);
+    --suffix-hover: #ffffff;
+}
+
+
+
+
+
+
+/* 全局重置：无滚动条，边距归零 */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;   /* 禁止滚动条 */
+    height: 100%;
+    width: 100%;
+}
+
+#app {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1e1e2e;   /* 你的背景色（深色模式） */
+    /* 如果你使用CSS变量，可改成 var(--app-bg) 等 */
+    /* 去掉多余的 overflow 和 -wails-draggable（如需拖拽，保留） */
+    --wails-draggable: drag;  /* 若需要拖拽，保留，否则去掉 */
+}
+
+/* 你的输入框容器，可以不要额外样式，让 flex 居中即可 */
+.app-container {
+    /* 无需额外高度，由内容撑开 */
+}
