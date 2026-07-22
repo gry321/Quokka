@@ -280,27 +280,28 @@ onUnmounted(() => {
 }
 
 .mainPrompt :deep(.el-input__wrapper) {
-  height: 50px;
-  padding: 0 16px;
+  height: 52px;
+  padding: 0 18px;
   background: var(--input-bg);
   border: 1.5px solid var(--input-border);
-  border-radius: 14px;
-  backdrop-filter: blur(20px) saturate(1.8);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border-radius: 16px;
+  backdrop-filter: blur(24px) saturate(2.0);
+  -webkit-backdrop-filter: blur(24px) saturate(2.0);
   box-shadow: var(--input-shadow) !important;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s var(--ease-out-expo);
 }
 
 .mainPrompt :deep(.el-input__wrapper:hover) {
-  border-color: rgba(var(--primary-rgb), 0.22);
-  box-shadow: 0 6px 28px rgba(var(--shadow-rgb), 0.07), 0 2px 6px rgba(var(--shadow-rgb), 0.03) !important;
+  border-color: var(--input-border-hover);
+  box-shadow: var(--input-shadow-hover) !important;
+  transform: translateY(-1px);
 }
 
 .mainPrompt :deep(.el-input__wrapper.is-focus) {
-  border-color: rgba(var(--primary-rgb), 0.40);
-  background: var(--input-bg);
+  border-color: rgba(var(--primary-rgb), 0.45);
+  background: var(--input-bg-solid);
   box-shadow: var(--input-focus-shadow) !important;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .mainPrompt :deep(.el-input__inner) {

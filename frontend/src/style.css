@@ -1,70 +1,141 @@
 :root {
-    /* ===== 基础色板 (RGB 通道) ===== */
-    --primary-rgb: 124, 107, 255;
-    --accent-rgb: 167, 139, 250;
+    /* ===== 高级配色系统 - Premium Color Palette ===== */
+    /* Primary: Electric Violet - 现代科技感紫色 */
+    --primary-rgb: 139, 92, 246;
+    --primary-dark-rgb: 124, 58, 237;
+    --primary-light-rgb: 167, 139, 250;
+    
+    /* Accent: Cyan Glow - 青色光晕点缀 */
+    --accent-rgb: 34, 211, 238;
+    --accent-glow: rgba(34, 211, 238, 0.4);
+    
+    /* Neutral & Shadow */
     --neutral-rgb: 0, 0, 0;
     --shadow-rgb: 0, 0, 0;
+    
+    /* Success / Warning / Error */
+    --success-rgb: 34, 197, 94;
+    --warning-rgb: 234, 179, 8;
+    --error-rgb: 239, 68, 68;
 
-    /* ===== 输入框变量 ===== */
-    --input-bg: rgba(255, 255, 255, 0.78);
-    --input-border: rgba(var(--neutral-rgb), 0.08);
-    --input-text: #1a1a2e;
-    --input-placeholder: rgba(var(--neutral-rgb), 0.30);
+    /* ===== 高级玻璃态输入框 ===== */
+    --input-bg: rgba(255, 255, 255, 0.85);
+    --input-bg-solid: rgba(255, 255, 255, 0.95);
+    --input-border: rgba(139, 92, 246, 0.12);
+    --input-border-hover: rgba(139, 92, 246, 0.25);
+    --input-text: #0f172a;
+    --input-placeholder: rgba(15, 23, 42, 0.35);
 
-    /* 阴影分层 */
-    --input-shadow-default: 0 4px 24px rgba(var(--shadow-rgb), 0.05), 0 1px 4px rgba(var(--shadow-rgb), 0.03);
-    --input-shadow-focus: 0 8px 40px rgba(var(--primary-rgb), 0.16), 0 2px 8px rgba(var(--primary-rgb), 0.06);
-    --input-ring-focus: 0 0 0 3px rgba(var(--primary-rgb), 0.10);
+    /* 多层光影效果 - Multi-layer Shadows */
+    --input-shadow-default: 
+        0 2px 8px rgba(0, 0, 0, 0.04),
+        0 1px 3px rgba(0, 0, 0, 0.02),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    --input-shadow-hover: 
+        0 4px 16px rgba(139, 92, 246, 0.12),
+        0 2px 6px rgba(139, 92, 246, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    --input-shadow-focus: 
+        0 8px 48px rgba(139, 92, 246, 0.20),
+        0 4px 16px rgba(139, 92, 246, 0.12),
+        0 2px 8px rgba(139, 92, 246, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 1);
+    --input-ring-focus: 0 0 0 3px rgba(139, 92, 246, 0.15);
     --input-shadow: var(--input-shadow-default);
     --input-focus-shadow: var(--input-shadow-focus), var(--input-ring-focus);
 
-    /* ===== 后缀变量 ===== */
-    --suffix-color: rgba(var(--neutral-rgb), 0.28);
-    --suffix-hover: rgba(var(--primary-rgb), 1);
+    /* ===== Suffix Icons ===== */
+    --suffix-color: rgba(15, 23, 42, 0.35);
+    --suffix-hover: rgba(139, 92, 246, 1);
 
-    /* ===== 背景 ===== */
-    --app-bg: #f8f9fc;
-    --app-bg-gradient: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 30%, #e0e7ff 70%, #f0f9ff 100%);
+    /* ===== 高级渐变背景 - Premium Gradient ===== */
+    --app-bg: #f8fafc;
+    --app-bg-gradient: 
+        radial-gradient(ellipse at top left, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(34, 211, 238, 0.06) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            #fafafa 0%, 
+            #f5f3ff 15%, 
+            #f0f9ff 35%, 
+            #faf5ff 65%, 
+            #fef2f2 85%, 
+            #ffffff 100%);
 
-    /* ===== 玻璃卡片 ===== */
-    --card-bg: rgba(255, 255, 255, 0.35);
-    --card-border: rgba(255, 255, 255, 0.5);
-    --card-shadow: 0 8px 32px rgba(var(--shadow-rgb), 0.06);
+    /* ===== 高级玻璃卡片 - Frosted Glass Card ===== */
+    --card-bg: rgba(255, 255, 255, 0.65);
+    --card-bg-solid: rgba(255, 255, 255, 0.85);
+    --card-border: rgba(255, 255, 255, 0.6);
+    --card-border-highlight: rgba(139, 92, 246, 0.15);
+    --card-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.06),
+        0 2px 12px rgba(0, 0, 0, 0.03),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
 
-    /* ===== 品牌色 ===== */
-    --brand-text: rgba(var(--primary-rgb), 0.55);
+    /* ===== 品牌文字色 ===== */
+    --brand-text: rgba(139, 92, 246, 0.65);
 
-    /* ===== 动效预设 ===== */
-    --input-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* ===== 高级动效曲线 - Premium Easing ===== */
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --input-transition: 0.4s var(--ease-out-expo);
 }
 
-/* ===== 深色模式 ===== */
+/* ===== 深色模式 - Dark Mode Premium ===== */
 .dark {
     --neutral-rgb: 255, 255, 255;
     --shadow-rgb: 0, 0, 0;
 
-    --input-bg: rgba(30, 30, 50, 0.80);
-    --input-border: rgba(var(--neutral-rgb), 0.10);
-    --input-text: #f0f0ff;
-    --input-placeholder: rgba(var(--neutral-rgb), 0.28);
+    /* Dark palette with cyan accents */
+    --input-bg: rgba(15, 23, 42, 0.85);
+    --input-bg-solid: rgba(15, 23, 42, 0.95);
+    --input-border: rgba(139, 92, 246, 0.18);
+    --input-border-hover: rgba(139, 92, 246, 0.35);
+    --input-text: #f1f5f9;
+    --input-placeholder: rgba(241, 245, 249, 0.35);
 
-    --input-shadow-default: 0 4px 24px rgba(var(--shadow-rgb), 0.40), 0 1px 4px rgba(var(--shadow-rgb), 0.20);
-    --input-shadow-focus: 0 8px 40px rgba(var(--primary-rgb), 0.28), 0 2px 8px rgba(var(--primary-rgb), 0.12);
-    --input-ring-focus: 0 0 0 3px rgba(var(--primary-rgb), 0.15);
+    --input-shadow-default: 
+        0 2px 12px rgba(0, 0, 0, 0.3),
+        0 1px 4px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --input-shadow-hover: 
+        0 4px 20px rgba(139, 92, 246, 0.25),
+        0 2px 8px rgba(139, 92, 246, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    --input-shadow-focus: 
+        0 8px 48px rgba(139, 92, 246, 0.35),
+        0 4px 20px rgba(139, 92, 246, 0.25),
+        0 2px 10px rgba(139, 92, 246, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    --input-ring-focus: 0 0 0 3px rgba(139, 92, 246, 0.25);
     --input-shadow: var(--input-shadow-default);
     --input-focus-shadow: var(--input-shadow-focus), var(--input-ring-focus);
 
-    --suffix-color: rgba(var(--neutral-rgb), 0.38);
-    --suffix-hover: rgba(var(--accent-rgb), 1);
+    --suffix-color: rgba(241, 245, 249, 0.4);
+    --suffix-hover: rgba(167, 139, 250, 1);
 
-    --app-bg: #12121e;
-    --app-bg-gradient: linear-gradient(135deg, #0f0c29 0%, #1a1640 40%, #1e1b4b 70%, #0c1222 100%);
+    /* Dark gradient background */
+    --app-bg: #020617;
+    --app-bg-gradient: 
+        radial-gradient(ellipse at top left, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(34, 211, 238, 0.08) 0%, transparent 50%),
+        linear-gradient(135deg, 
+            #020617 0%, 
+            #0f172a 20%, 
+            #1e1b4b 45%, 
+            #0c1222 70%, 
+            #020617 100%);
 
-    --card-bg: rgba(255, 255, 255, 0.04);
+    --card-bg: rgba(30, 41, 59, 0.65);
+    --card-bg-solid: rgba(30, 41, 59, 0.85);
     --card-border: rgba(255, 255, 255, 0.08);
-    --card-shadow: 0 8px 32px rgba(var(--shadow-rgb), 0.35);
+    --card-border-highlight: rgba(139, 92, 246, 0.25);
+    --card-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 2px 12px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
-    --brand-text: rgba(var(--accent-rgb), 0.5);
+    --brand-text: rgba(167, 139, 250, 0.6);
 }
 
 /* ===== 全局重置 ===== */
