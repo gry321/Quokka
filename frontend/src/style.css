@@ -1,62 +1,86 @@
 :root {
     /* ===== 基础色板 (RGB 通道) ===== */
-    --primary-rgb: 124, 107, 255;   /* 品牌主色 */
-    --neutral-rgb: 0, 0, 0;         /* 亮色模式中性色基底 */
-    --shadow-rgb: 0, 0, 0;          /* 投射阴影颜色（始终保持黑色） */
+    --primary-rgb: 124, 107, 255;
+    --accent-rgb: 167, 139, 250;
+    --neutral-rgb: 0, 0, 0;
+    --shadow-rgb: 0, 0, 0;
 
     /* ===== 输入框变量 ===== */
-    --input-bg: rgba(var(--neutral-rgb), 0.04);
-    --input-border: rgba(var(--neutral-rgb), 0.15);      /* ↑ 提升至 0.15 增强边界感 */
-    --input-text: #1a1a1a;
+    --input-bg: rgba(255, 255, 255, 0.78);
+    --input-border: rgba(var(--neutral-rgb), 0.08);
+    --input-text: #1a1a2e;
     --input-placeholder: rgba(var(--neutral-rgb), 0.30);
 
-    /* 阴影分层：基础投影 + 聚焦光晕 */
-    --input-shadow-default: 0 8px 32px rgba(var(--shadow-rgb), 0.08);
-    --input-shadow-focus: 0 8px 32px rgba(var(--primary-rgb), 0.20);
-    --input-ring-focus: 0 0 0 4px rgba(var(--primary-rgb), 0.08);
+    /* 阴影分层 */
+    --input-shadow-default: 0 4px 24px rgba(var(--shadow-rgb), 0.05), 0 1px 4px rgba(var(--shadow-rgb), 0.03);
+    --input-shadow-focus: 0 8px 40px rgba(var(--primary-rgb), 0.16), 0 2px 8px rgba(var(--primary-rgb), 0.06);
+    --input-ring-focus: 0 0 0 3px rgba(var(--primary-rgb), 0.10);
     --input-shadow: var(--input-shadow-default);
     --input-focus-shadow: var(--input-shadow-focus), var(--input-ring-focus);
 
     /* ===== 后缀变量 ===== */
-    --suffix-color: rgba(var(--neutral-rgb), 0.40);
-    --suffix-hover: #1a1a1a;
+    --suffix-color: rgba(var(--neutral-rgb), 0.28);
+    --suffix-hover: rgba(var(--primary-rgb), 1);
+
+    /* ===== 背景 ===== */
+    --app-bg: #f8f9fc;
+    --app-bg-gradient: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 30%, #e0e7ff 70%, #f0f9ff 100%);
+
+    /* ===== 玻璃卡片 ===== */
+    --card-bg: rgba(255, 255, 255, 0.35);
+    --card-border: rgba(255, 255, 255, 0.5);
+    --card-shadow: 0 8px 32px rgba(var(--shadow-rgb), 0.06);
+
+    /* ===== 品牌色 ===== */
+    --brand-text: rgba(var(--primary-rgb), 0.55);
 
     /* ===== 动效预设 ===== */
-    --input-transition: 0.2s ease-in-out;
+    --input-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ===== 深色模式 ===== */
 .dark {
-    --neutral-rgb: 255, 255, 255;   /* 切换基底为白色 */
-    --shadow-rgb: 0, 0, 0;          /* 阴影保持黑色（深色背景上需更深） */
+    --neutral-rgb: 255, 255, 255;
+    --shadow-rgb: 0, 0, 0;
 
-    --input-bg: rgba(var(--neutral-rgb), 0.06);
-    --input-border: rgba(var(--neutral-rgb), 0.18);      /* 暗色环境下稍微提亮边界 */
-    --input-text: #ffffff;
-    --input-placeholder: rgba(var(--neutral-rgb), 0.35);
+    --input-bg: rgba(30, 30, 50, 0.80);
+    --input-border: rgba(var(--neutral-rgb), 0.10);
+    --input-text: #f0f0ff;
+    --input-placeholder: rgba(var(--neutral-rgb), 0.28);
 
-    --input-shadow-default: 0 8px 32px rgba(var(--shadow-rgb), 0.45); /* 深色模式下阴影浓度加深 */
-    --input-shadow-focus: 0 8px 32px rgba(var(--primary-rgb), 0.25);
-    --input-ring-focus: 0 0 0 4px rgba(var(--primary-rgb), 0.10);
+    --input-shadow-default: 0 4px 24px rgba(var(--shadow-rgb), 0.40), 0 1px 4px rgba(var(--shadow-rgb), 0.20);
+    --input-shadow-focus: 0 8px 40px rgba(var(--primary-rgb), 0.28), 0 2px 8px rgba(var(--primary-rgb), 0.12);
+    --input-ring-focus: 0 0 0 3px rgba(var(--primary-rgb), 0.15);
     --input-shadow: var(--input-shadow-default);
     --input-focus-shadow: var(--input-shadow-focus), var(--input-ring-focus);
 
-    --suffix-color: rgba(var(--neutral-rgb), 0.50);
-    --suffix-hover: #ffffff;
+    --suffix-color: rgba(var(--neutral-rgb), 0.38);
+    --suffix-hover: rgba(var(--accent-rgb), 1);
+
+    --app-bg: #12121e;
+    --app-bg-gradient: linear-gradient(135deg, #0f0c29 0%, #1a1640 40%, #1e1b4b 70%, #0c1222 100%);
+
+    --card-bg: rgba(255, 255, 255, 0.04);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-shadow: 0 8px 32px rgba(var(--shadow-rgb), 0.35);
+
+    --brand-text: rgba(var(--accent-rgb), 0.5);
 }
 
+/* ===== 全局重置 ===== */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 
-
-
-
-
-/* 全局重置：无滚动条，边距归零 */
 html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden;   /* 禁止滚动条 */
+    overflow: hidden;
     height: 100%;
     width: 100%;
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #app {
@@ -65,13 +89,71 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #1e1e2e;   /* 你的背景色（深色模式） */
-    /* 如果你使用CSS变量，可改成 var(--app-bg) 等 */
-    /* 去掉多余的 overflow 和 -wails-draggable（如需拖拽，保留） */
-    --wails-draggable: drag;  /* 若需要拖拽，保留，否则去掉 */
+    background: var(--app-bg-gradient);
+    position: relative;
+    --wails-draggable: drag;
+    transition: background 0.5s ease;
 }
 
-/* 你的输入框容器，可以不要额外样式，让 flex 居中即可 */
 .app-container {
-    /* 无需额外高度，由内容撑开 */
+    --wails-draggable: drag;
+    padding-top: 20px;
+}
+
+/* ===== 背景装饰光斑 ===== */
+#app::before,
+#app::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#app::before {
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle, rgba(var(--primary-rgb), 0.18) 0%, transparent 70%);
+    top: -100px;
+    left: -80px;
+    animation: float-orb 10s ease-in-out infinite;
+}
+
+#app::after {
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(var(--accent-rgb), 0.14) 0%, transparent 70%);
+    bottom: -80px;
+    right: -60px;
+    animation: float-orb 12s ease-in-out infinite reverse;
+}
+
+/* ===== 第三个光斑（通过 .app-container 伪元素） ===== */
+.app-container::before {
+    content: '';
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(var(--primary-rgb), 0.08) 0%, transparent 70%);
+    filter: blur(80px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse-glow 6s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes float-orb {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(12px, -8px) scale(1.05); }
+    66% { transform: translate(-8px, 6px) scale(0.95); }
+}
+
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.3); }
 }

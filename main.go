@@ -12,33 +12,31 @@ import (
 var assets embed.FS
 
 func main() {
+	// Single instance: if another Quokka is running, activate it and exit.
+	if !ensureSingleInstance() {
+		return
+	}
+
 	app := NewApp()
 
 	err := wails.Run(&options.App{
-		Title:         "Quokka",
-		Width:         600, // 初始尺寸，之后会被调整
-		Height:        120,
-		DisableResize: false, // 必须允许程序调整
-		AlwaysOnTop:   true,
-		Frameless:     true,
-		//MinSize: &options.Size{      // 锁定尺寸（让用户无法手动调整）
-		//	Width:  600,
-		//	Height: 120,
-		//},
-		//MaxSize: &options.Size{
-		//	Width:  600,
-		//	Height: 120,
-		//},
-		MaxWidth:  600,
-		MaxHeight: 120,
-		MinWidth:  600,
-		MinHeight: 120,
+		Title:            "Quokka",
+		Width:            620,
+		Height:           110,
+		MinWidth:         400,
+		MinHeight:        80,
+		DisableResize:    false,
+		AlwaysOnTop:      true,
+		Frameless:        true,
+		StartHidden:      false,
+		HideWindowOnClose: true,
 
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
 		BackgroundColour: &options.RGBA{R: 0, G: 0, B: 0, A: 0},
 		OnStartup:        app.startup,
+		OnShutdown:       app.shutdown,
 		Bind: []interface{}{
 			app,
 		},
