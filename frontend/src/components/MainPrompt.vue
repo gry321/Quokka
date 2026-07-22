@@ -230,6 +230,7 @@ onUnmounted(() => {
     </el-input>
 
     <!-- Results dropdown (不依赖 focus，手动resize后隐藏) -->
+    <transition name="results-list" appear>
     <div v-if="showResults()" class="results-list">
         <div
           v-for="(item, idx) in results"
@@ -255,6 +256,11 @@ onUnmounted(() => {
           <kbd v-if="idx === selectedIdx" class="launch-hint">↵</kbd>
         </div>
       </div>
+    </transition>
+    <!-- Drag overlay hint -->
+    <div class="drag-overlay" v-if="dragOverInput">
+      <span class="drag-hint-text">Drop DLL to install plugin</span>
+    </div>
     </div>
 </template>
 
@@ -501,4 +507,47 @@ onUnmounted(() => {
 }
 
 /* Results animation */
+.results-list-enter-active,
+.results-list-leave-active {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.results-list-enter-from {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+}
+
+.results-list-leave-to {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.99);
+}
+
+/* Drag overlay hint */
+.drag-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(var(--primary-rgb), 0.08);
+  border: 2px dashed rgba(var(--primary-rgb), 0.4);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.launcher-container.drag-over .drag-overlay {
+  opacity: 1;
+}
+
+.drag-hint-text {
+  font-size: 13px;
+  color: rgba(var(--primary-rgb), 0.7);
+  font-weight: 500;
+  background: rgba(var(--primary-rgb), 0.1);
+  padding: 6px 12px;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+}
 </style>

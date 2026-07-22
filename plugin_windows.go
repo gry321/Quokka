@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"sync"
 	"syscall"
+	"time"
 	"unsafe"
 )
 
@@ -66,15 +67,30 @@ type pluginConfig struct {
 
 // PluginManager manages registered DLL plugins.
 type PluginManager struct {
-	mu      sync.Mutex
+	mu      sync.RWMutex
 	config  pluginConfig
 	cfgPath string
+	dllCache map[string]dllHandle
 }
+
+type dllHandle struct {
+	handle syscall.Handle
+	proc   uintptr
+	lastUsed time.Time
+}
+
+var (
+	maxCachedDLLs = 5
+	dllCacheMu    sync.Mutex
+)
 
 // NewPluginManager creates a plugin manager and loads config from disk.
 func NewPluginManager() *PluginManager {
 	cfgPath := pluginConfigFilePath("plugins.json")
-	pm := &PluginManager{cfgPath: cfgPath}
+	pm := &PluginManager{
+		cfgPath:  cfgPath,
+		dllCache: make(map[string]dllHandle),
+	}
 	pm.loadConfig()
 	return pm
 }
@@ -205,18 +221,35 @@ func (pm *PluginManager) ListPlugins() []PluginInfo {
 
 // RunPlugins executes all enabled plugins and returns collected entries.
 func (pm *PluginManager) RunPlugins(input string, activeHWND uintptr) []PluginEntry {
-	pm.mu.Lock()
+	pm.mu.RLock()
 	plugins := make([]PluginInfo, len(pm.config.Plugins))
 	copy(plugins, pm.config.Plugins)
-	pm.mu.Unlock()
+	pm.mu.RUnlock()
 
 	var allEntries []PluginEntry
+	var wg sync.WaitGroup
+	resultChan := make(chan []PluginEntry, len(plugins))
 
 	for _, p := range plugins {
 		if !p.Enabled {
 			continue
 		}
-		entries := runSinglePlugin(p, input, activeHWND)
+		wg.Add(1)
+		go func(plugin PluginInfo) {
+			defer wg.Done()
+			entries := runSinglePlugin(plugin, input, activeHWND)
+			if len(entries) > 0 {
+				resultChan <- entries
+			}
+		}(p)
+	}
+
+	go func() {
+		wg.Wait()
+		close(resultChan)
+	}()
+
+	for entries := range resultChan {
 		allEntries = append(allEntries, entries...)
 	}
 
@@ -234,22 +267,65 @@ func runSinglePlugin(info PluginInfo, input string, activeHWND uintptr) []Plugin
 	tmpFile.Close()
 	defer os.Remove(tmpPath)
 
-	// Load DLL
-	_, err = syscall.UTF16PtrFromString(info.Path)
-	if err != nil {
-		return nil
+	// Check DLL cache first
+	dllCacheMu.Lock()
+	cached, ok := dllCache[info.Path]
+	if ok {
+		// Verify DLL still exists
+		if _, err := os.Stat(info.Path); err != nil {
+			syscall.FreeLibrary(cached.handle)
+			delete(dllCache, info.Path)
+			ok = false
+		} else {
+			cached.lastUsed = time.Now()
+			dllCache[info.Path] = cached
+		}
 	}
+	dllCacheMu.Unlock()
 
-	handle, err := syscall.LoadLibrary(info.Path)
-	if err != nil {
-		return nil
-	}
-	defer syscall.FreeLibrary(handle)
+	var handle syscall.Handle
+	var proc uintptr
 
-	// Look up QuokkaPlugin entry point
-	proc, err := syscall.GetProcAddress(handle, "QuokkaPlugin")
-	if err != nil {
-		return nil
+	if !ok {
+		// Load DLL
+		handle, err = syscall.LoadLibrary(info.Path)
+		if err != nil {
+			return nil
+		}
+
+		// Look up QuokkaPlugin entry point
+		proc, err = syscall.GetProcAddress(handle, "QuokkaPlugin")
+		if err != nil {
+			syscall.FreeLibrary(handle)
+			return nil
+		}
+
+		// Cache the handle
+		dllCacheMu.Lock()
+		if len(dllCache) >= maxCachedDLLs {
+			// Remove oldest entry
+			oldestPath := ""
+			oldestTime := time.Now()
+			for path, h := range dllCache {
+				if h.lastUsed.Before(oldestTime) {
+					oldestTime = h.lastUsed
+					oldestPath = path
+				}
+			}
+			if oldestPath != "" {
+				syscall.FreeLibrary(dllCache[oldestPath].handle)
+				delete(dllCache, oldestPath)
+			}
+		}
+		dllCache[info.Path] = dllHandle{
+			handle:   handle,
+			proc:     proc,
+			lastUsed: time.Now(),
+		}
+		dllCacheMu.Unlock()
+	} else {
+		handle = cached.handle
+		proc = cached.proc
 	}
 
 	// Prepare C strings
