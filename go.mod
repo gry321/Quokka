@@ -1,6 +1,6 @@
 module Quokka
 
-go 1.23.0
+go 1.19
 
 require (
 	github.com/energye/systray v1.0.3
