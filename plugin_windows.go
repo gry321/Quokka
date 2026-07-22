@@ -82,14 +82,14 @@ type dllHandle struct {
 var (
 	maxCachedDLLs = 5
 	dllCacheMu    sync.Mutex
+	dllCache      = make(map[string]dllHandle)
 )
 
 // NewPluginManager creates a plugin manager and loads config from disk.
 func NewPluginManager() *PluginManager {
 	cfgPath := pluginConfigFilePath("plugins.json")
 	pm := &PluginManager{
-		cfgPath:  cfgPath,
-		dllCache: make(map[string]dllHandle),
+		cfgPath: cfgPath,
 	}
 	pm.loadConfig()
 	return pm
